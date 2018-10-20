@@ -18,23 +18,23 @@
                 "type": "CGI", 
                 "command": "choose",
                 "seatID": 0/1/2/3 .. 31
-             }```
-     ```server: {
+             }
+     server: {
               "type": "CGI",
               "command": "choose",
               "result": 0/1
-             }```
+             }
 
 > 2. ```client: {
               "type": "CGI",
               "command": "setName",
               "name": UTF-8
-             }```
-     ```server: {
+             }
+     server: {
               "type": "CGI",
               "command": "setName",
               "result": "success" | "error reason"
-             }```
+             }
 
 > 3. ```server: {
                 "type": "SYNC",
@@ -45,4 +45,4 @@
                     ...
                     "31": 0/1
                 ]
-             }```
+             }
