@@ -26,7 +26,7 @@
               "command": "choose",
               "result": 0/1
              }
-
+```
 > 2. 
 ```
      client: {
@@ -39,7 +39,7 @@
               "command": "setName",
               "result": "success" | "error reason"
              }
-
+```
 > 3. 
 ```
      server: {
@@ -52,3 +52,4 @@
                     "31": 0/1
                 ]
              }
+```
