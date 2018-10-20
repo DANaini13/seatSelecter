@@ -23,10 +23,10 @@ public class FreeView : MonoBehaviour
     private float mY = 0.0F;
 
     //鼠标缩放距离最值
-    private float MaxDistance = 10;
+    private float MaxDistance = 15;
     private float MinDistance = 1.5F;
     //鼠标缩放速率
-    private float ZoomSpeed = 2F;
+    private float ZoomSpeed = 5F;
 
     //是否启用差值
     public bool isNeedDamping = true;
@@ -57,8 +57,10 @@ public class FreeView : MonoBehaviour
     void Start()
     {
         //初始化旋转角度
+     
         mX = transform.eulerAngles.x;
         mY = transform.eulerAngles.y;
+        //初始化位置
     }
 
     void LateUpdate()
