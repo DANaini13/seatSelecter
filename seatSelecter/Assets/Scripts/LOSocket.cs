@@ -111,7 +111,6 @@ public class LOSocket
 
         message += "\r\n";
         byte[] sendData = Encoding.UTF8.GetBytes(message);
-
         //异步发送消息请求
         clientSocket.BeginSend(sendData, 0, sendData.Length, SocketFlags.None, new System.AsyncCallback(SendToServer), clientSocket);
     }

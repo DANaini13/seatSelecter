@@ -21,17 +21,23 @@ class SocketClient
     private int port = 0;
     private ConnectionStatus connectionStatus;
     private Timer reconnectionTimer = null;
+    private Timer heartBeatTimer = null;
+    private bool connectionAlive = false;
 
     private void tryConnect()
     {
         try
         {
+            Debug.Log("================= start connecting to server. ==================");
             connectionStatus = ConnectionStatus.connecting;
-            client.InitClient(address, port, callBack);
+            client.InitClient(address, port, onNewMessage);
             connectionStatus = ConnectionStatus.connected;
+            Debug.Log("================= connect successfully. ==================");
+            connectionAlive = true;
+            startCheckHeartBeat();
         } catch (SocketException e)
         {
-            connectionStatus = ConnectionStatus.reconnecting;
+            Debug.Log("================= connecting failed, start reconnecting. ==================");
             startReconnect();
         }
               
@@ -39,24 +45,66 @@ class SocketClient
 
     private void startReconnect()
     {
-        if(reconnectionTimer == null)
+        connectionStatus = ConnectionStatus.reconnecting;
+        if (reconnectionTimer == null)
         {
             reconnectionTimer = new Timer();
         }
         reconnectionTimer.Enabled = true;
         reconnectionTimer.Interval = 1000;
-        reconnectionTimer.Elapsed += new System.Timers.ElapsedEventHandler(tryReconnect);
+        reconnectionTimer.Elapsed += new ElapsedEventHandler(tryReconnect);
         reconnectionTimer.Start();
+    }
+
+    private void startCheckHeartBeat()
+    {
+        if(heartBeatTimer == null)
+        {
+            heartBeatTimer = new Timer();
+        }
+        heartBeatTimer.Enabled = true;
+        heartBeatTimer.Interval = 10000;
+        heartBeatTimer.Elapsed += new ElapsedEventHandler(checkHeartBeat);
+        heartBeatTimer.Start();
     }
 
     private void tryReconnect(object source, ElapsedEventArgs e)
     {
         if(connectionStatus == ConnectionStatus.connected)
         {
+            Debug.Log("================= reconnect successfully. ==================");
+            reconnectionTimer.Enabled = false;
             reconnectionTimer.Stop();
             return;
         }
         tryConnect();
+        Debug.Log("================= reconnecting... ==================");
+    }
+
+    private void onNewMessage(string message)
+    {
+        if (message.StartsWith("0"))
+        {
+            Debug.Log("================= hear beat ==================");
+            connectionAlive = true;
+            return;
+        }
+        callBack(message);
+    }
+
+    private void checkHeartBeat(object source, ElapsedEventArgs e)
+    {
+        if (connectionStatus != ConnectionStatus.connected)
+            return;
+        if (connectionAlive)
+        {
+            connectionAlive = false;
+            return;
+        }
+        connectionStatus = ConnectionStatus.reconnecting;
+        startReconnect();
+        heartBeatTimer.Enabled = false;
+        heartBeatTimer.Stop();
     }
 
     public SocketClient(string address, int port, ReceiveCallBack callBack)
@@ -70,10 +118,9 @@ class SocketClient
 
     public bool sendMessage(string message)
     {
-        if(connectionStatus != ConnectionStatus.connected)
-        {
+        if (connectionStatus != ConnectionStatus.connected)
             return false;
-        }
+        Debug.Log("==================================================send message");
         client.SendMessage(message);
         return true;
     }
@@ -94,4 +141,5 @@ public class WebService{
     }
 
     private SocketClient socketClient;
+
 }

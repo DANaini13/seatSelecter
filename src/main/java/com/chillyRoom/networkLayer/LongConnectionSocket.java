@@ -19,48 +19,60 @@ public class LongConnectionSocket extends Thread {
         return newLongConnectionSocket;
     }
 
-    public LongConnectionSocket(Socket server) {
+    private LongConnectionSocket(Socket server) {
         this.server = server;
     }
 
-    public void run() {
+    private void startSendHeartBeat() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("testValue", "shit");
-                    jsonObject.put("type", "SYNC");
-                    jsonObject.put("command", "test");
-                    sendPack(jsonObject.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                sendPack("0");
             }
-        }, 0, 2*1000);
+        }, 0, 5*1000);
+    }
 
+    private void setUpNewMessageListener() {
         try {
             DataInputStream in = new DataInputStream(server.getInputStream());
-            while (true) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String buffer = reader.readLine();
-                JSONObject header = new JSONObject(buffer);
-                CommandDispatcher commandDispatcher = new CommandDispatcher();
-                commandDispatcher.dispatchCommand(header, response -> {
-                    JSONObject jsonObject = new JSONObject();
-                    sendPack(response.toString());
-                });
-            }
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        String buffer = null;
+                        buffer = reader.readLine();
+                        if(buffer == null)
+                            return;
+                        JSONObject header = null;
+                        header = new JSONObject(buffer);
+                        CommandDispatcher commandDispatcher = new CommandDispatcher();
+                        commandDispatcher.dispatchCommand(header, response -> {
+                            JSONObject jsonObject = new JSONObject();
+                            sendPack(response.toString());
+                        });
+                        System.out.println(buffer);
+                    } catch (JSONException e) {
+                       // e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, 0, 100);
         } catch (IOException e) {
-            return;
-        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendPack(String pack) {
-        System.out.println(pack);
+    public void run() {
+        startSendHeartBeat();
+        setUpNewMessageListener();
+    }
+
+    void sendPack(String pack) {
         try {
             lock.lock();
             PrintWriter writer = new PrintWriter(server.getOutputStream());
