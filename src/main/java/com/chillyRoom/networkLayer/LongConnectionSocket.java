@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class LongConnectionSocket extends Thread {
     private final Socket server;
     private Lock lock = new ReentrantLock();
+    private long i = 0;
 
     static public LongConnectionSocket create(Socket server, int id) {
         LongConnectionSocket newLongConnectionSocket = new LongConnectionSocket(server);
@@ -28,9 +29,14 @@ public class LongConnectionSocket extends Thread {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                sendPack("0");
+                if(!sendPack("heartBeat: " + i++)) {
+                    timer.cancel();
+                }
+                if(i >= 9999) {
+                    i = 0;
+                }
             }
-        }, 0, 5*1000);
+        }, 0, 5000);
     }
 
     private void setUpNewMessageListener() {
@@ -57,7 +63,7 @@ public class LongConnectionSocket extends Thread {
                     } catch (JSONException e) {
                        // e.printStackTrace();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        timer.cancel();
                     }
 
                 }
@@ -72,15 +78,16 @@ public class LongConnectionSocket extends Thread {
         setUpNewMessageListener();
     }
 
-    void sendPack(String pack) {
+    boolean sendPack(String pack) {
         try {
             lock.lock();
             PrintWriter writer = new PrintWriter(server.getOutputStream());
             writer.print(pack);
             writer.flush();
             lock.unlock();
+            return true;
         } catch (IOException e) {
-            return;
+            return false;
         }
     }
 

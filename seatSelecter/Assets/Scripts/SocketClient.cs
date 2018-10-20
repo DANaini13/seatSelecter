@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using System.Net.Sockets;
-using System.Timers;
-using LitJson;
+using TinyJSON;
 
 
 class SocketClient
@@ -21,8 +21,8 @@ class SocketClient
     private string address = null;
     private int port = 0;
     private ConnectionStatus connectionStatus;
-    private Timer reconnectionTimer = null;
-    private Timer heartBeatTimer = null;
+    private System.Timers.Timer reconnectionTimer = null;
+    private System.Timers.Timer heartBeatTimer = null;
     private bool connectionAlive = false;
 
     private void tryConnect()
@@ -36,12 +36,13 @@ class SocketClient
             Debug.Log("================= connect successfully. ==================");
             connectionAlive = true;
             startCheckHeartBeat();
-        } catch (SocketException e)
+        }
+        catch (SocketException e)
         {
             Debug.Log("================= connecting failed, start reconnecting. ==================");
             startReconnect();
         }
-              
+
     }
 
     private void startReconnect()
@@ -49,29 +50,29 @@ class SocketClient
         connectionStatus = ConnectionStatus.reconnecting;
         if (reconnectionTimer == null)
         {
-            reconnectionTimer = new Timer();
+            reconnectionTimer = new System.Timers.Timer();
         }
         reconnectionTimer.Enabled = true;
-        reconnectionTimer.Interval = 1000;
-        reconnectionTimer.Elapsed += new ElapsedEventHandler(tryReconnect);
+        reconnectionTimer.Interval = 5000;
+        reconnectionTimer.Elapsed += new System.Timers.ElapsedEventHandler(tryReconnect);
         reconnectionTimer.Start();
     }
 
     private void startCheckHeartBeat()
     {
-        if(heartBeatTimer == null)
+        if (heartBeatTimer == null)
         {
-            heartBeatTimer = new Timer();
+            heartBeatTimer = new System.Timers.Timer();
         }
         heartBeatTimer.Enabled = true;
-        heartBeatTimer.Interval = 10000;
-        heartBeatTimer.Elapsed += new ElapsedEventHandler(checkHeartBeat);
+        heartBeatTimer.Interval = 5000;
+        heartBeatTimer.Elapsed += new System.Timers.ElapsedEventHandler(checkHeartBeat);
         heartBeatTimer.Start();
     }
 
-    private void tryReconnect(object source, ElapsedEventArgs e)
+    private void tryReconnect(object source, System.Timers.ElapsedEventArgs e)
     {
-        if(connectionStatus == ConnectionStatus.connected)
+        if (connectionStatus == ConnectionStatus.connected)
         {
             Debug.Log("================= reconnect successfully. ==================");
             reconnectionTimer.Enabled = false;
@@ -82,17 +83,7 @@ class SocketClient
         Debug.Log("================= reconnecting... ==================");
     }
 
-    private void onNewMessage(string message)
-    {
-        if (message.StartsWith("0"))
-        {
-            connectionAlive = true;
-            return;
-        }
-        callBack(message);
-    }
-
-    private void checkHeartBeat(object source, ElapsedEventArgs e)
+    private void checkHeartBeat(object source, System.Timers.ElapsedEventArgs e)
     {
         if (connectionStatus != ConnectionStatus.connected)
             return;
@@ -115,38 +106,21 @@ class SocketClient
         tryConnect();
     }
 
-    public bool sendMessage(string message)
+    public bool sendMessage(Variant message)
     {
         if (connectionStatus != ConnectionStatus.connected)
             return false;
-        client.SendMessage(message);
+        client.SendMessage(JSON.Dump(message));
         return true;
     }
-}
 
-class NetWorkServices{
-    private static NetWorkServices instance = new NetWorkServices();
-
-    public static NetWorkServices getInstance()
+    private void onNewMessage(string message)
     {
-        return instance;
+        if (message.StartsWith("heartBeat"))
+        {
+            connectionAlive = true;
+            return;
+        }
+        callBack(message);
     }
-
-    private NetWorkServices()
-    {
-        socketClient = new SocketClient("192.168.0.105", 8888, onNewMessage);
-        CGIPackages = new LinkedList<string>();
-        PUSHPackages = new LinkedList<string>();
-    }
-
-    private SocketClient socketClient;
-
-    private void onNewMessage(string content)
-    {
-        
-    }
-
-    //各类缓存资源
-    LinkedList<string> CGIPackages;
-    LinkedList<string> PUSHPackages;
 }
