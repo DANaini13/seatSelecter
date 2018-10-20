@@ -101,7 +101,6 @@ class SocketClient
             connectionAlive = false;
             return;
         }
-        connectionStatus = ConnectionStatus.reconnecting;
         startReconnect();
         heartBeatTimer.Enabled = false;
         heartBeatTimer.Stop();
