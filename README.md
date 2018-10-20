@@ -14,7 +14,9 @@
 > 2. 在包中加入指令：{"command": "xxxxx"}
 
 ### 接口
-> 1. ```client: {
+> 1. 
+```
+     client: {
                 "type": "CGI", 
                 "command": "choose",
                 "seatID": 0/1/2/3 .. 31
@@ -25,7 +27,9 @@
               "result": 0/1
              }
 
-> 2. ```client: {
+> 2. 
+```
+     client: {
               "type": "CGI",
               "command": "setName",
               "name": UTF-8
@@ -36,7 +40,9 @@
               "result": "success" | "error reason"
              }
 
-> 3. ```server: {
+> 3. 
+```
+     server: {
                 "type": "SYNC",
                 "seatStatus": [
                     "0": 0/1,
