@@ -14,7 +14,7 @@
 > 2. 在包中加入指令：{"command": "xxxxx"}
 
 ### 接口
-> 1. 
+> 1. 选择座位
 ```
      client: {
                 "type": "CGI", 
@@ -27,7 +27,7 @@
               "result": 0/1
              }
 ```
-> 2. 
+> 2. 设置姓名
 ```
      client: {
               "type": "CGI",
@@ -40,7 +40,7 @@
               "result": "success" | "error reason"
              }
 ```
-> 3. 
+> 3. 更新座位表
 ```
      server: {
                 "type": "SYNC",
