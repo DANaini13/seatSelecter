@@ -85,7 +85,6 @@ class SocketClient
     {
         if (message.StartsWith("0"))
         {
-            Debug.Log("================= hear beat ==================");
             connectionAlive = true;
             return;
         }
@@ -120,26 +119,34 @@ class SocketClient
     {
         if (connectionStatus != ConnectionStatus.connected)
             return false;
-        Debug.Log("==================================================send message");
         client.SendMessage(message);
         return true;
     }
 }
 
-public class WebService{
-    private static WebService instance = new WebService();
+class NetWorkServices{
+    private static NetWorkServices instance = new NetWorkServices();
 
-    public static WebService getInstance()
+    public static NetWorkServices getInstance()
     {
         return instance;
     }
 
-    private WebService()
+    private NetWorkServices()
     {
-        socketClient = new SocketClient("192.168.0.105", 8888, (string content) => {
-        });
+        socketClient = new SocketClient("192.168.0.105", 8888, onNewMessage);
+        CGIPackages = new LinkedList<string>();
+        PUSHPackages = new LinkedList<string>();
     }
 
     private SocketClient socketClient;
 
+    private void onNewMessage(string content)
+    {
+        
+    }
+
+    //各类缓存资源
+    LinkedList<string> CGIPackages;
+    LinkedList<string> PUSHPackages;
 }
