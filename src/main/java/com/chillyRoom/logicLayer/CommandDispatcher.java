@@ -23,6 +23,13 @@ public class CommandDispatcher {
                 if(SeatServices.checkIfNameExist(header.getString("name"))) {
                     object.put("result", 1);
                     manager.addNameByServer(caller, header.getString("name"));
+                    JSONObject broadcastObj = new JSONObject();
+                    broadcastObj.put("command", "seatStatus");
+                    broadcastObj.put("type", "SYNC");
+                    for(Map.Entry<Integer, String> pair:SeatServices.getSeatsStatus().entrySet()){
+                        broadcastObj.put("" + pair.getKey(), pair.getValue());
+                    }
+                    caller.sendPack(broadcastObj.toString());
                 }else {
                     object.put("result", 0);
                 }

@@ -97,7 +97,7 @@ public class LongConnectionSocket extends Thread {
         setUpNewMessageListener();
     }
 
-    boolean sendPack(String pack) {
+    public boolean sendPack(String pack) {
         try {
             lock.lock();
             PrintWriter writer = new PrintWriter(server.getOutputStream());

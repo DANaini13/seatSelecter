@@ -33,7 +33,6 @@ public class MemberVO {
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM " + tableName + " WHERE name = \"" + name + "\"");
-            System.out.println("SELECT * FROM " + tableName + " WHERE name = \"" + name + "\"");
             if(rs.next()) {
                 statement.close();
                 return true;
