@@ -357,6 +357,7 @@
     <Compile Include="Assets\Scripts\Extensions.cs" />
     <Compile Include="Assets\Scripts\FreeView.cs" />
     <Compile Include="Assets\Scripts\JSON.cs" />
+    <Compile Include="Assets\Scripts\Loom.cs" />
     <Compile Include="Assets\Scripts\LOSocket.cs" />
     <Compile Include="Assets\Scripts\MainUIControl.cs" />
     <Compile Include="Assets\Scripts\NetworkService.cs" />

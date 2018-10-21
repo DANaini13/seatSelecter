@@ -34,6 +34,7 @@ class NetWorkServices
         string type = jsonObj["type"];
         if(type.Equals("CGI"))
         {
+            Debug.Log(type);
             lock(CGIPackages)
             {
                 CGIPackages.AddFirst(jsonObj);
@@ -113,7 +114,10 @@ class NetWorkServices
     {
         lock(CGICallbackMap)
         {
-            CGICallbackMap.Add((string)message["command"], callBack);
+            if (CGICallbackMap.Contains((string)message["command"]))
+                CGICallbackMap[(string)message["command"]] = callBack;
+            else
+                CGICallbackMap.Add((string)message["command"], callBack);
         }
         socketClient.sendMessage(message);
     }
@@ -122,7 +126,10 @@ class NetWorkServices
     {
         lock(PUSHCallbackMap)
         {
-            PUSHCallbackMap.Add(command, callBack);
+            if (PUSHCallbackMap.Contains(command))
+                PUSHCallbackMap[command] = callBack;
+            else
+                PUSHCallbackMap.Add(command, callBack);
         }
     }
 

@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 24
   isNull: 1
   curName: 
 --- !u!1 &44961468
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 30
   isNull: 1
   curName: 
 --- !u!1 &114684553
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 27
   isNull: 1
   curName: 
 --- !u!1 &174707271
@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 29
   isNull: 1
   curName: 
 --- !u!1 &187417298
@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 1
-  seatNum: 0
+  seatNum: 4
   isNull: 1
   curName: 
 --- !u!28 &241389240
@@ -773,6 +773,7 @@ GameObject:
   - component: {fileID: 259526405}
   - component: {fileID: 259526406}
   - component: {fileID: 259526407}
+  - component: {fileID: 259526408}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -882,6 +883,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowObj: {fileID: 1308215045151526, guid: b69c1ab1fd361ba479514aed43c457b5, type: 2}
+--- !u!114 &259526408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 259526400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b708321ee6300e4d9a75a515f730677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &318993044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 26
   isNull: 1
   curName: 
 --- !u!1 &354833543
@@ -1101,7 +1113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 28
   isNull: 1
   curName: 
 --- !u!1 &382664478
@@ -1158,7 +1170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 17
   isNull: 1
   curName: 
 --- !u!1 &417508499
@@ -1215,7 +1227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 11
   isNull: 1
   curName: 
 --- !u!1 &433330997
@@ -1272,7 +1284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 15
   isNull: 1
   curName: 
 --- !u!1 &433673957
@@ -1329,7 +1341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 1
-  seatNum: 0
+  seatNum: 3
   isNull: 1
   curName: 
 --- !u!1 &497465579
@@ -1451,7 +1463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 22
   isNull: 1
   curName: 
 --- !u!1 &558870663
@@ -1508,7 +1520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 1
-  seatNum: 0
+  seatNum: 2
   isNull: 1
   curName: 
 --- !u!1 &567674415
@@ -1565,7 +1577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 12
   isNull: 1
   curName: 
 --- !u!43 &685174269
@@ -1830,7 +1842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 20
   isNull: 1
   curName: 
 --- !u!1 &779275138
@@ -1887,7 +1899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 1
-  seatNum: 0
+  seatNum: 6
   isNull: 1
   curName: 
 --- !u!1 &794287879
@@ -1944,7 +1956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 16
   isNull: 1
   curName: 
 --- !u!1 &812144834
@@ -2001,7 +2013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 13
   isNull: 1
   curName: 
 --- !u!1 &848331964
@@ -2058,7 +2070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 19
   isNull: 1
   curName: 
 --- !u!1 &849876000
@@ -2115,7 +2127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 10
   isNull: 1
   curName: 
 --- !u!1 &877135858
@@ -2446,7 +2458,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1547455844}
+      - m_Target: {fileID: 1547455846}
         m_MethodName: SeatEnter
         m_Mode: 1
         m_Arguments:
@@ -2546,7 +2558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 9
   isNull: 1
   curName: 
 --- !u!1 &1108050621
@@ -2603,7 +2615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 31
   isNull: 1
   curName: 
 --- !u!1 &1229361599
@@ -2660,7 +2672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 1
-  seatNum: 0
+  seatNum: 5
   isNull: 1
   curName: 
 --- !u!1 &1256864370
@@ -2717,7 +2729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 23
   isNull: 1
   curName: 
 --- !u!21 &1301404287
@@ -2848,7 +2860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 8
   isNull: 1
   curName: 
 --- !u!1 &1371499492
@@ -2905,7 +2917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 0
-  seatNum: 0
+  seatNum: 14
   isNull: 1
   curName: 
 --- !u!1 &1422567189
@@ -3022,7 +3034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 25
   isNull: 1
   curName: 
 --- !u!1 &1492723901
@@ -3319,7 +3331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 1
-  seatNum: 0
+  seatNum: 7
   isNull: 1
   curName: 
 --- !u!1 &1547455843
@@ -3438,7 +3450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 3
-  seatNum: 0
+  seatNum: 18
   isNull: 1
   curName: 
 --- !u!1 &1559828088
@@ -3495,7 +3507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 1
-  seatNum: 0
+  seatNum: 1
   isNull: 1
   curName: 
 --- !u!1 &1571765071
@@ -3839,6 +3851,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curVec: 2
-  seatNum: 0
+  seatNum: 21
   isNull: 1
   curName: 
