@@ -44,12 +44,11 @@
 ```
      server: {
                 "type": "SYNC",
-                "seatStatus": [
-                    "0": UTF-8,   // 座位id对应姓名，如果为 "NULL", 表示该座位上没人
-                    "1": UTF-8,
-                    "2": UTF-8,
-                    ...
-                    "31": UTF-8
-                ]
+                "command": "seatStatus"
+                "0": UTF-8,   // 座位id对应姓名，如果为 "NULL", 表示该座位上没人
+                "1": UTF-8,
+                "2": UTF-8,
+                ...
+                "31": UTF-8
              }
 ```
