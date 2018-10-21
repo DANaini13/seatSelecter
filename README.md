@@ -24,7 +24,7 @@
      server: {
               "type": "CGI",
               "command": "choose",
-              "result": 0/1
+              "result": "success" | "error reason"
              }
 ```
 > 2. 设置姓名
