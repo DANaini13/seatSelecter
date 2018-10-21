@@ -36,7 +36,6 @@ public class FreeView : MonoBehaviour
 
     //存储角度的四元数
     private Quaternion mRotation;
-
     //定义鼠标按键枚举
     private enum MouseButton
     {
@@ -62,7 +61,6 @@ public class FreeView : MonoBehaviour
         mX = transform.eulerAngles.x;
         mY = transform.eulerAngles.y;
         //初始化位置
-
     }
 
     void LateUpdate()
@@ -118,4 +116,5 @@ public class FreeView : MonoBehaviour
         if (angle > 360) angle -= 360;
         return Mathf.Clamp(angle, min, max);
     }
+
 }

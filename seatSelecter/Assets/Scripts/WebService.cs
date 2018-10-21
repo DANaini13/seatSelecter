@@ -25,13 +25,16 @@ public class WebService{
     {
         
     }
-
-    void setSeatsStatusCallBack(NetworkCallBack callBack)
+    public static WebService getInstance()
+    {
+        return instance;
+    }
+    public void setSeatsStatusCallBack(NetworkCallBack callBack)
     {
         NetWorkServices.getInstance().addListenerForSyncMessage("seatStatus", callBack);
     }
 
-    void setName(string name, NetworkCallBack callBack)
+    public void setName(string name, NetworkCallBack callBack)
     {
         NetWorkServices netWorkServices = NetWorkServices.getInstance();
         NamePacket packet = new NamePacket();
@@ -43,7 +46,7 @@ public class WebService{
         netWorkServices.sendCGIRequest(jsonObj, callBack);
     }
 
-    void chooseSeat(int seatId, NetworkCallBack callBack)
+    public void chooseSeat(int seatId, NetworkCallBack callBack)
     {
         NetWorkServices netWorkServices = NetWorkServices.getInstance();
         ChooseSeatPacket packet = new ChooseSeatPacket();

@@ -556,7 +556,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1313678384}
-        m_MethodName: LoadMainScence
+        m_MethodName: CheckName
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -764,6 +764,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a57d1026319df30478f7f7c45b06b9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameInput: {fileID: 733638466}
+  errorTextObj: {fileID: 1870824321285674, guid: a2de34cb6ad94754d8792ab34c04964d,
+    type: 2}
 --- !u!4 &1313678385
 Transform:
   m_ObjectHideFlags: 0
