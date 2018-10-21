@@ -9,6 +9,16 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+class CRTimerTask extends TimerTask
+{
+    public LongConnectionSocket caller;
+
+    @Override
+    public void run() {
+
+    }
+}
+
 public class LongConnectionSocket extends Thread {
     private final Socket server;
     private Lock lock = new ReentrantLock();
@@ -26,24 +36,28 @@ public class LongConnectionSocket extends Thread {
 
     private void startSendHeartBeat() {
         Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        CRTimerTask task = new CRTimerTask() {
             @Override
             public void run() {
                 if(!sendPack("heartBeat: " + i++)) {
                     timer.cancel();
+                    LongConnectionManager manager = LongConnectionManager.getServerManager();
+                    manager.removeServerIfExist(this.caller);
                 }
                 if(i >= 9999) {
                     i = 0;
                 }
             }
-        }, 0, 5000);
+        };
+        task.caller = this;
+        timer.schedule(task, 0, 5000);
     }
 
     private void setUpNewMessageListener() {
         try {
             DataInputStream in = new DataInputStream(server.getInputStream());
             Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
+            CRTimerTask task = new CRTimerTask() {
                 @Override
                 public void run() {
                     try {
@@ -55,19 +69,24 @@ public class LongConnectionSocket extends Thread {
                         JSONObject header = null;
                         header = new JSONObject(buffer);
                         CommandDispatcher commandDispatcher = new CommandDispatcher();
+                        commandDispatcher.caller = this.caller;
+                        if(header.getString("type").equals("PUSH")) {
+                            commandDispatcher.dispatchCommand(header);
+                            return;
+                        }
                         commandDispatcher.dispatchCommand(header, response -> {
-                            JSONObject jsonObject = new JSONObject();
                             sendPack(response.toString());
                         });
-                        System.out.println(buffer);
                     } catch (JSONException e) {
-                       // e.printStackTrace();
+                        // e.printStackTrace();
                     } catch (IOException e) {
                         timer.cancel();
                     }
 
                 }
-            }, 0, 100);
+            };
+            task.caller = this;
+            timer.schedule(task, 0, 100);
         } catch (IOException e) {
             e.printStackTrace();
         }
