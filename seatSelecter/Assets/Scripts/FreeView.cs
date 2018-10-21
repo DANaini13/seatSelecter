@@ -63,12 +63,6 @@ public class FreeView : MonoBehaviour
         mY = transform.eulerAngles.y;
         //初始化位置
 
-
-        var networkService = NetWorkServices.getInstance();
-        var json = JSON.Load("{\"type\":\"CGI\", \"command\":\"test\"}");
-        networkService.sendCGIRequest(json, (Variant message) => {
-
-        });
     }
 
     void LateUpdate()

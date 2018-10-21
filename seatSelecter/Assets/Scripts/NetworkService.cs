@@ -5,7 +5,6 @@ using UnityEngine;
 using System.Net.Sockets;
 using TinyJSON;
 
-
 public delegate void NetworkCallBack(Variant content);
 
 class NetWorkServices
@@ -23,6 +22,7 @@ class NetWorkServices
         CGIPackages = new LinkedList<Variant>();
         PUSHPackages = new LinkedList<Variant>();
         CGICallbackMap = new Hashtable();
+        startNewPackageChecker();
     }
 
     private SocketClient socketClient;
@@ -81,7 +81,7 @@ class NetWorkServices
                 CGIPackages.RemoveFirst();
             }
         }
-        // PUSH part
+        // SYNC part
         package = PUSHPackages.First.Value;
         if (package != null)
         {
