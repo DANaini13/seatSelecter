@@ -47,13 +47,14 @@ public class MainUIControl : MonoBehaviour {
     }
     private void OnChooseSeat(Variant content)
     {
+        Debug.Log("点击");
         string resultStr = (string)content["result"];
         Debug.Log(resultStr);
         if (resultStr == "success")
         {
 
             Loom.QueueOnMainThread(() => {
-                CreatPlayer(ArrowControl.curSeatTf);
+            //    CreatPlayer(ArrowControl.curSeatTf);
        
             });
             Debug.Log("选择成功");
@@ -78,15 +79,27 @@ public class MainUIControl : MonoBehaviour {
                 if (str == "NULL")
                 {
                     sm.isNull = true;
-                    for (int j = 0; j < seatTriggerTf.GetChild(i).childCount; j++)
+                    sm.curName = "无";
+                    sm.tm.text = sm.curName;
+                    
+                    //for (int j = 0; j < seatTriggerTf.GetChild(i).childCount; j++)
+                    //{
+                    //    Destroy(seatTriggerTf.GetChild(i).GetChild(j).gameObject);
+                    //}
+                    if (sm.curPlayerObj != null)
                     {
-                        Destroy(seatTriggerTf.GetChild(i).GetChild(j).gameObject);
+                        Destroy(sm.curPlayerObj);
                     }
                 }
                 else
                 {
                     ChoiceUIControl cuc = new ChoiceUIControl();
-                    CreatSeatPlayer(seatTriggerTf.GetChild(i));
+                    if (sm.curPlayerObj == null)
+                    {
+                        CreatSeatPlayer(seatTriggerTf.GetChild(i), sm);
+                    }
+                    sm.curName = str;
+                    sm.tm.text = sm.curName;
                     sm.isNull = false;
                 }
             }
@@ -128,9 +141,10 @@ public class MainUIControl : MonoBehaviour {
             }
         }
     }
-    public void CreatSeatPlayer(Transform tf)
+    public void CreatSeatPlayer(Transform tf,SeatManaer sm)
     {
         GameObject go = Instantiate((GameObject)Resources.Load("player", typeof(GameObject)), tf);
+        sm.curPlayerObj = go;
         go.transform.localPosition = new Vector3(0, 4.6f, 0);
         tf.GetComponent<SeatManaer>().isNull = false;
         //     CheckRotation(go);

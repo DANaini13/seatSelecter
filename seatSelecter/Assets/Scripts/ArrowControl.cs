@@ -49,6 +49,10 @@ public class ArrowControl : MonoBehaviour {
             }
 
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Camera.main.GetComponent<FreeView>().enabled = true;
+        }
     }
 
 }

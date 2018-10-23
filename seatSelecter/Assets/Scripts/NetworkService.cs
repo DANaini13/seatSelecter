@@ -18,7 +18,7 @@ class NetWorkServices
 
     private NetWorkServices()
     {
-        socketClient = new SocketClient("192.168.1.223", 5613, onNewMessage);
+        socketClient = new SocketClient("139.162.27.138", 5613, onNewMessage);
         CGIPackages = new LinkedList<Variant>();
         PUSHPackages = new LinkedList<Variant>();
         CGICallbackMap = new Hashtable();

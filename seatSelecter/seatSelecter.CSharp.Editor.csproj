@@ -298,9 +298,6 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="LitJson">
-      <HintPath>Assets\LitJson.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="seatSelecter.CSharp.csproj">
@@ -361,6 +358,7 @@
     <Compile Include="Assets\VoxelImporter\Scripts\Editor\VoxelSkinnedAnimationObjectEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Materials\3DTEST.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
@@ -410,6 +408,7 @@
     <None Include="Assets\VoxelImporter\Scripts\Editor\Shader\VertexColor-Transparent-Zwrite.shader" />
     <None Include="Assets\VoxelImporter\Scripts\Editor\Shader\VertexColor-Transparent.shader" />
     <None Include="Assets\VoxelImporter\Scripts\Editor\Shader\VertexColor.shader" />
+    <None Include="Assets\fonts\arlishugbmd_test\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
