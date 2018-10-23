@@ -56,7 +56,7 @@ public class LOSocket
     //声明客户端收到服务端返回消息后的回调委托函数
     private ReceiveCallBack clientReceiveCallBack;
     //用来存储服务端返回的消息数据
-    byte[] Buffer = new byte[1024];
+    byte[] Buffer = new byte[2048];
 
     //初始化客户端Socket信息
     public void InitClient(string ip, int port, ReceiveCallBack ccb)
@@ -96,6 +96,7 @@ public class LOSocket
         if (ByteRead > 0)
         {
             string Content = Encoding.Default.GetString(Buffer);
+
             //通过回调函数将消息返回给调用者
             this.clientReceiveCallBack(Content);
         }

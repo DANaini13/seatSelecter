@@ -864,7 +864,7 @@ namespace VoxelImporter
             }
             else if (prefabType == PrefabType.PrefabInstance || prefabType == PrefabType.DisconnectedPrefabInstance)
             {
-                var prefabParent = PrefabUtility.GetPrefabParent(voxelBase.gameObject);
+                var prefabParent = PrefabUtility.GetCorrespondingObjectFromSource(voxelBase.gameObject);
                 if (prefabParent != null)
                 {
                     var prefabObject = PrefabUtility.GetPrefabObject(prefabParent);

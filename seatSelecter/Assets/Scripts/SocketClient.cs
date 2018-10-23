@@ -31,11 +31,11 @@ class SocketClient
         {
             Debug.Log("================= start connecting to server. ==================");
             connectionStatus = ConnectionStatus.connecting;
-            client.InitClient(address, port, onNewMessage);
+            client.InitClient(address, port, onMessages);
             connectionStatus = ConnectionStatus.connected;
             Debug.Log("================= connect successfully. ==================");
             connectionAlive = true;
-            startCheckHeartBeat();
+        //    startCheckHeartBeat();
         }
         catch (SocketException e)
         {
@@ -114,6 +114,21 @@ class SocketClient
         return true;
     }
 
+    private void onMessages(string messages)
+    {
+        string result = "";
+        foreach(char c in messages)
+        {
+            if (c == '#')
+            {
+                onNewMessage(result);
+                result = "";
+                continue;
+            }
+            result = result + c;
+        }
+    }
+
     private void onNewMessage(string message)
     {
         if (message.StartsWith("heartBeat"))
@@ -121,6 +136,7 @@ class SocketClient
             connectionAlive = true;
             return;
         }
+        Debug.Log(message);
         callBack(message);
     }
 }

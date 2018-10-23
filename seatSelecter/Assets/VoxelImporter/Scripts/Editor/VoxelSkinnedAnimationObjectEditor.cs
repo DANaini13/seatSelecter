@@ -181,7 +181,7 @@ namespace VoxelImporter
 
                                     if (prefabType == PrefabType.Prefab)
                                     {
-                                        PrefabUtility.ReplacePrefab(goRoot, PrefabUtility.GetPrefabParent(goRoot), ReplacePrefabOptions.ConnectToPrefab);
+                                        PrefabUtility.ReplacePrefab(goRoot, PrefabUtility.GetCorrespondingObjectFromSource(goRoot), ReplacePrefabOptions.ConnectToPrefab);
                                         DestroyImmediate(goRoot);
                                     }
                                 };

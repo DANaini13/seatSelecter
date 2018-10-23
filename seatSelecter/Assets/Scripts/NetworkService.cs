@@ -18,7 +18,7 @@ class NetWorkServices
 
     private NetWorkServices()
     {
-        socketClient = new SocketClient("212.71.247.118", 8888, onNewMessage);
+        socketClient = new SocketClient("192.168.1.223", 5613, onNewMessage);
         CGIPackages = new LinkedList<Variant>();
         PUSHPackages = new LinkedList<Variant>();
         CGICallbackMap = new Hashtable();
@@ -34,7 +34,6 @@ class NetWorkServices
         string type = jsonObj["type"];
         if(type.Equals("CGI"))
         {
-            Debug.Log(type);
             lock(CGIPackages)
             {
                 CGIPackages.AddFirst(jsonObj);
@@ -44,6 +43,7 @@ class NetWorkServices
         {
             lock (PUSHPackages)
             {
+                Debug.Log("put packet into the PUSH packages");
                 PUSHPackages.AddFirst(jsonObj);
             }
         }
@@ -91,11 +91,8 @@ class NetWorkServices
             var callBack = (NetworkCallBack)PUSHCallbackMap[command];
             if (callBack != null)
             {
+                Debug.Log("found call back for command " + command);
                 callBack(package);
-                lock (PUSHCallbackMap)
-                {
-                    PUSHCallbackMap.Remove(command);
-                }
             }
             lock (PUSHPackages)
             {
@@ -126,8 +123,9 @@ class NetWorkServices
     {
         lock(PUSHCallbackMap)
         {
-            if (PUSHCallbackMap.Contains(command))
+            if (PUSHCallbackMap.Contains(command)) {
                 PUSHCallbackMap[command] = callBack;
+            }
             else
                 PUSHCallbackMap.Add(command, callBack);
         }
