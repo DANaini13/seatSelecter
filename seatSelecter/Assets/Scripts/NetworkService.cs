@@ -18,12 +18,13 @@ class NetWorkServices
 
     private NetWorkServices()
     {
-        socketClient = new SocketClient("139.162.27.138", 5613, onNewMessage);
+        socketClient = new SocketClient("118.89.44.81", 5613, onNewMessage);
         CGIPackages = new LinkedList<Variant>();
         PUSHPackages = new LinkedList<Variant>();
         CGICallbackMap = new Hashtable();
         PUSHCallbackMap = new Hashtable();
-        startNewPackageChecker();
+        startCheckSYNCNewPackageChecker();
+        startCheckCGINewPackageChecker();
     }
 
     private SocketClient socketClient;
@@ -53,20 +54,29 @@ class NetWorkServices
         }
     }
 
-    private void startNewPackageChecker()
+    private void startCheckCGINewPackageChecker()
     {
         var timer = new System.Timers.Timer();
-        timer.Interval = 100;
+        timer.Interval = 200;
         timer.Enabled = true;
-        timer.Elapsed += new System.Timers.ElapsedEventHandler(onCheckPackages);
+        timer.Elapsed += new System.Timers.ElapsedEventHandler(onCheckCGIPackages);
         timer.Start();
     }
 
-    private void onCheckPackages(object source, System.Timers.ElapsedEventArgs e)
+    private void startCheckSYNCNewPackageChecker()
+    {
+        var timer = new System.Timers.Timer();
+        timer.Interval = 200;
+        timer.Enabled = true;
+        timer.Elapsed += new System.Timers.ElapsedEventHandler(onCheckPUSHPackages);
+        timer.Start();
+    }
+
+    private void onCheckCGIPackages(object source, System.Timers.ElapsedEventArgs e)
     {
         //CGI part
         var package = CGIPackages.First.Value;
-        if(package != null)
+        if (package != null)
         {
             string command = package["command"];
             var callBack = (NetworkCallBack) CGICallbackMap[command];
@@ -83,10 +93,15 @@ class NetWorkServices
                 CGIPackages.RemoveFirst();
             }
         }
+    }
+
+    private void onCheckPUSHPackages(object source, System.Timers.ElapsedEventArgs e)
+    {
         // SYNC part
-        package = PUSHPackages.First.Value;
+        var package = PUSHPackages.First.Value;
         if (package != null)
         {
+            Debug.Log("got package!!!!");
             string command = package["command"];
             var callBack = (NetworkCallBack)PUSHCallbackMap[command];
             if (callBack != null)

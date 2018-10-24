@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using System.Net.Sockets;
+using System.Net;
+using System.Text;
 using TinyJSON;
 
 
@@ -16,31 +18,31 @@ class SocketClient
         connecting = 3
     }
 
-    private LOSocket client = null;
+    private TcpClient client = null;
     private ReceiveCallBack callBack = null;
     private string address = null;
     private int port = 0;
     private ConnectionStatus connectionStatus;
     private System.Timers.Timer reconnectionTimer = null;
     private System.Timers.Timer heartBeatTimer = null;
+    private System.Timers.Timer recieveTimer = null;
     private bool connectionAlive = false;
 
-    private void tryConnect()
+    private bool tryConnect()
     {
         try
         {
             Debug.Log("================= start connecting to server. ==================");
-            connectionStatus = ConnectionStatus.connecting;
-            client.InitClient(address, port, onMessages);
+            client = new TcpClient();
+            client.Connect(IPAddress.Parse(address), port);
             connectionStatus = ConnectionStatus.connected;
             Debug.Log("================= connect successfully. ==================");
             connectionAlive = true;
-        //    startCheckHeartBeat();
+            return true;
         }
         catch (SocketException e)
         {
-            Debug.Log("================= connecting failed, start reconnecting. ==================");
-            startReconnect();
+            return false;
         }
 
     }
@@ -79,8 +81,13 @@ class SocketClient
             reconnectionTimer.Stop();
             return;
         }
-        tryConnect();
-        Debug.Log("================= reconnecting... ==================");
+        connectionStatus = ConnectionStatus.reconnecting;
+        if(!tryConnect()) {
+            Debug.Log("================= reconnecting... ==================");
+        }else {
+            startCheckHeartBeat();
+            startReceiveMessage();
+        }
     }
 
     private void checkHeartBeat(object source, System.Timers.ElapsedEventArgs e)
@@ -99,18 +106,50 @@ class SocketClient
 
     public SocketClient(string address, int port, ReceiveCallBack callBack)
     {
-        client = LOSocket.GetSocket(LOSocket.LOSocketType.CLIENT);
         this.callBack = callBack;
         this.address = address;
         this.port = port;
-        tryConnect();
+        connectionStatus = ConnectionStatus.connecting;
+        if(tryConnect()) {
+            startCheckHeartBeat();
+            startReceiveMessage();
+        }else {
+            startReconnect();
+        }
+    }
+
+    private void startReceiveMessage()
+    {
+        if (recieveTimer == null)
+        {
+            recieveTimer = new System.Timers.Timer();
+        }
+        recieveTimer.Enabled = true;
+        recieveTimer.Interval = 100;
+        recieveTimer.Elapsed += new System.Timers.ElapsedEventHandler(receiveMessage);
+        recieveTimer.Start();
+    }
+
+    private void receiveMessage(object source, System.Timers.ElapsedEventArgs e)
+    {
+        if (connectionStatus != ConnectionStatus.connected)
+            return;
+        byte[] buffer = new byte[2048];
+        int byteRead = client.GetStream().Read(buffer, 0, 2048);
+        if (byteRead == 0) {
+            
+        }else {
+            string msg = Encoding.UTF8.GetString(buffer, 0, byteRead);
+            onMessages(msg);
+        }
     }
 
     public bool sendMessage(Variant message)
     {
         if (connectionStatus != ConnectionStatus.connected)
             return false;
-        client.SendMessage(JSON.Dump(message));
+        byte[] buffer = Encoding.UTF8.GetBytes(JSON.Dump(message));
+        client.GetStream().Write(buffer, 0, buffer.Length);
         return true;
     }
 
@@ -131,12 +170,11 @@ class SocketClient
 
     private void onNewMessage(string message)
     {
-        if (message.StartsWith("heartBeat"))
+        if (message == "heart")
         {
             connectionAlive = true;
             return;
         }
-        Debug.Log(message);
         callBack(message);
     }
 }

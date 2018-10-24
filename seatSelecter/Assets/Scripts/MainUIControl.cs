@@ -17,6 +17,7 @@ public class MainUIControl : MonoBehaviour {
         webService = WebService.getInstance();
         webService.setSeatsStatusCallBack((Variant contant) =>
         {
+            Debug.Log("slakdjflasjkdfbkjasvhfjashdfgksja");
             CheckSeat(contant);//更新座位是否为空
         });
     }
