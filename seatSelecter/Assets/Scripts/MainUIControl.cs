@@ -9,6 +9,7 @@ using System.Threading;
 public class MainUIControl : MonoBehaviour {
     public Text nameInput;
     public GameObject errorTextObj;
+    private GameObject curErrorTextObj;
     public GameObject InputUI;
     public WebService webService;
   
@@ -170,9 +171,9 @@ public class MainUIControl : MonoBehaviour {
     {
        
         Loom.QueueOnMainThread(() => {
-            if (errorTextObj != null)
+            if (curErrorTextObj != null)
             {
-                DestroyImmediate(errorTextObj, true);
+                DestroyImmediate(curErrorTextObj, true);
             }
             InputUI.SetActive(false);
         });
@@ -183,7 +184,11 @@ public class MainUIControl : MonoBehaviour {
      
         Loom.QueueOnMainThread(() => {
             Transform canvasTf = GameObject.Find("Canvas").transform;
-            errorTextObj = Instantiate(errorTextObj, canvasTf);
+            if (curErrorTextObj != null)
+            {
+                Destroy(curErrorTextObj);
+            }
+            curErrorTextObj = Instantiate(errorTextObj, canvasTf);
             Debug.Log("错误");
         });
       

@@ -408,7 +408,6 @@
     <None Include="Assets\VoxelImporter\Scripts\Editor\Shader\VertexColor-Transparent-Zwrite.shader" />
     <None Include="Assets\VoxelImporter\Scripts\Editor\Shader\VertexColor-Transparent.shader" />
     <None Include="Assets\VoxelImporter\Scripts\Editor\Shader\VertexColor.shader" />
-    <None Include="Assets\fonts\arlishugbmd_test\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
